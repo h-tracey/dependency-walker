@@ -30,7 +30,7 @@ def generate_drift_analysis_internal(driver):
     with open('internal_drift.csv', 'w') as file:
         writer = csv.writer(file)
 
-        writer.writerow(['name', 'version', 'dependency_name', 'dependency_latest'])
+        writer.writerow(['dependent_name', 'dependent_version', 'dependency_name', 'dependency_latest'])
 
         for item in records:
             writer.writerow([item['n1.name'], item['r.version'],  item['n.name'], item['n.latest']])

@@ -27,7 +27,7 @@ def iterate_relations(dep_dict):
                 package_type = 'Backend'
             elif dep['dependency'] in deprecated:
                 package_type = 'deprecated'
-            elif dep['dependency'].startswith('ri_'):
+            elif dep['dependency'].startswith('ds_') or dep['dependency'].startswith('ds-'):
                 package_type = 'DataScience'
             else: 
                 package_type = 'External'

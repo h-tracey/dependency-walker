@@ -2,76 +2,22 @@ from requests import get
 import json
 from os import getenv
 
-BEARER_TOK = getenv("BEARER_TOK")
+BEARER_TOK  = getenv("BEARER_TOK")
 
-DELIMS = ["==", "~=", '>=', '<=', ">", "<"]
+DELIMS = ["==", "~=", '>=', '<=', ">", "<", "#"]
 INVALID_START = ['#', '--']
 
-py_services = [
-    "la-pipeline",
-    "la-heartbeat",
-    "la-insight",
-    "la-cooccurrence",
-    "la-tag-service",
-    "la-datacollector",
-    "la-theme",
-    "la-summarisation",
-    "la-api",
-    "la-file-source",
-    "la-progress",
-    "la-smart-uploads",
-    "la-queue-stats",
-    "la-dep-store",
-    "la-event",
-    "la-logger",
-    "la-data-discovery",
-    "la-trackers",
-    "la-automation",
-    "la-automation-api"
-]
+py_services = []
 
 py_libs = [
-    "la-common-tools",
-    "la-common-date",
-    "la-common-amqp",
-    "la-common-redis",
-    "la-common-mongo",
-    "la-common-grpc",
-    "la-common-pipeline",
-    "la-common-mysql",
-    "la-common-schemas",
-    "la-common-flask",
 ]
 
-node_srv = [
-    "page-parser",
-    "cache_service",
-    "update_service",
-    "resource_service",
-    "flag_api",
-    "auth-service",
-    "la-data-upload",
-    "admin-api",
-    "heat_map_service"
-]
+node_srv = []
 
 node_libs = [
-    "rabbitmq_message_library",
-    "admin_models"
 ]
 
 deprecated = [
-    "la-tag-libs",
-    "ri_key_value_store",
-    'rrti_cache',
-    'ri-key-value-store',
-    'ri_grpc',
-    'ri_storage_utilities',
-    'ri_service_property_settings'
-    'ri_stat_importance'
-    'ri_amqp',
-    'ri_nosql',
-    'redis_cache_library'
 ]
 def get_latest(repo):
     resp = get(
@@ -105,8 +51,9 @@ def scan_py(scan_type):
 
                 result = req.split('DELIM')
                 dep = result[0].split()[0]
-                dep = result[0].split('[')[0]                
+                dep = result[0].split('[')[0]
                 version = result[1].split()[0] if len(result) > 1 else 'latest'
+                version = version if version[0].isdigit() else 'latest'
 
                 reqs.append(dict(dependency=dep, version=version))
         deps.update({srv: {'deps': reqs, 'latest': get_latest(srv)}})

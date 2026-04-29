@@ -22,11 +22,11 @@ def get_npm_package_info(package_name, version=None):
 
     return version
 
-def check_osv_vulns(name, package_version, ecosystem):
+def check_osv_vulns(name: str, package_version, ecosystem):
     url = "https://api.osv.dev/v1/query"
     query = {
         "version": package_version,
-        "package": {"name": name, "ecosystem": ecosystem}
+        "package": {"name": name.lower(), "ecosystem": ecosystem}
     }
     resp  = post(url, json=query)
     content = resp.json()
